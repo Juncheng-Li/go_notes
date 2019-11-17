@@ -9,7 +9,7 @@ learning notes for programming language go
 * 导入包没有使用会报错：imported and not used: os
 * 注释使用 // 或者 /* */
 
-Alias import
+**Alias import**
 
 ```go
 package main
@@ -21,7 +21,7 @@ func main() {
 }
 ```
 
-Define variable
+**Define variable**
 * 声明的变量必须要被使用
 ```go
 var a, b, c int
