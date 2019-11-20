@@ -1,9 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
+var week time.Duration
 
 func main() {
-	var a int
-	a = 9223372036854775807
-	fmt.Println(a)
+	aki := "where"
+	fmt.Println(aki)
+	fmt.Println(&aki)
+	var akiPtr *string
+	akiPtr = &aki
+	fmt.Println(akiPtr)
 }
