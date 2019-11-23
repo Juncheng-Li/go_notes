@@ -59,6 +59,8 @@ a, b, c, = 6, 8, "cba"
 ```go
 //函数 fmt.Sprintf 与 Printf 的作用是完全相同的，不过前者将格式化后的字符串以返回值的形式返回给调用者
 fmt.Print("Hello:", 23)
+//实际上，fmt 包（第 4.4.3 节）最简单的打印函数也有 2 个返回值：
+count, err := fmt.Println(x) // number of bytes printed, nil or 0, error
 ```
 
 **init function**
@@ -163,7 +165,7 @@ var intP *int
 
 
 
-给type重新命名
+**给type重新命名**
 ```go
 package main
 import "fmt"
@@ -183,15 +185,143 @@ func main() {
 * 你可以使用 a := uint64(0) 来同时完成类型转换和赋值操作
 * 在格式化字符串里，%d 用于格式化整数（%x 和 %X 用于格式化 16 进制表示的数字），%g 用于格式化浮点型（%f 输出浮点数，%e 输出科学计数表示法），%0nd 用于规定输出长度为n的整数，其中开头的数字 0 是必须的。%n.mg 用于表示数字 n 并精确到小数点后 m 位，除了使用 g 之外，还可以使用 e 或者 f，例如：使用格式化字符串 %5.2e 来输出 3.4 的结果为 3.40e+00
 
+
 **运算**
 ```go
 i++
 i += 1
-```
+//绝对值
+Abs(x int)
 
+
+```
 运算细节：
 * / 对于整数运算而言，结果依旧为整数，例如：9 / 4 -> 2。
 * 取余运算符只能作用于整数：9 % 4 -> 1。
 * 整数除以 0 可能导致程序崩溃，将会导致运行时的恐慌状态（如果除以 0 的行为在编译时就能被捕捉到，则会引发编译错误）；第 13 章将会详细讲解如何正确地处理此类情况。
 * 浮点数除以 0.0 会返回一个无穷尽的结果，使用 +Inf 表示。
+
+
+**if-else**
+* 注意事项 不要同时在 if-else 结构的两个分支里都使用 return 语句，这将导致编译报错 function ends without a return statement（你可以认为这是一个编译器的 Bug 或者特性）。（ 译者注：该问题已经在 Go 1.1 中被修复或者说改进 ）
+* 判断string是否为空的2种方法：
+    if str == "" { ... }
+    if len(str) == 0 {...}
+```go
+if condition {
+	// do something	
+} else {
+	// do something	
+}
+```
+```go
+if condition1 {
+	// do something	
+} else if condition2 {
+	// do something else	
+} else {
+	// catch-all or default
+}
+```
+```go
+if initialization; condition { //感觉可以用作try catch //也可以用作等待读取完成
+	// do something
+}
+
+//e.g. 类似try catch
+if err := file.Chmod(0664); err != nil {
+	fmt.Println(err)
+	return err
+}
+
+//e.g. 等待读取完成
+if value, ok := readData(); ok {
+…
+}
+
+```
+
+**switch**
+不需要break语句，自带隐藏break
+```go
+switch num1 {
+	case 98, 99:
+		fmt.Println("It's equal to 98")
+	case 100: 
+		fmt.Println("It's equal to 100")
+	default:
+		fmt.Println("It's not equal to 98 or 100")
+	}
+```
+```go
+//fallthrough可以去掉自隐藏的break
+switch i {
+	case 0: fallthrough
+	case 1:
+		f() // 当 i == 0 时函数也会被调用
+}
+```
+```go
+//带初始化
+switch result := calculate() {
+	case result < 0:
+		...
+	case result > 0:
+		...
+	default:
+		// 0
+}
+```
+
+**for**
+```go
+for i := 0; i < 5; i++ {
+		fmt.Printf("This is the %d iteration\n", i)
+}
+```
+```go
+//在循环中同时使用多个计数器
+for i, j := 0, N; i < j; i, j = i+1, j-1 {}
+
+for i, j, s := 0, 5, "a"; i < 3 && j < 100 && s != "aaaaa"; i, j,
+		s = i+1, j+1, s + "a" {
+		fmt.Println("Value of i, j, s:", i, j, s)
+	}
+```
+```go
+//无限循环
+for {}
+for ;; { }
+for i:=0;;i++ {}
+```
+```go
+//亚洲字体在print中的使用
+str := "Go is a beautiful language!"
+fmt.Printf("The length of str is: %d\n", len(str))
+for pos, char := range str {
+	fmt.Printf("Character on position %d is: %c \n", pos, char)
+}
+fmt.Println()
+str2 := "Chinese: 日本語"
+fmt.Printf("The length of str2 is: %d\n", len(str2))
+for pos, char := range str2 {
+	fmt.Printf("character %c starts at byte position %d\n", char, pos)
+}
+fmt.Println()
+fmt.Println("index int(rune) rune    char bytes")
+for index, rune1 := range str2 {
+	fmt.Printf("%-2d      %d      %U '%c' % X\n", index, rune1, rune1, rune1, []byte(string(rune1)))
+}
+```
+for-range
+```go
+
+```
+
+**错误**
+判断有没有错误
+```go
+if err != nil {} 
+```
+
 

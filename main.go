@@ -8,10 +8,8 @@ import (
 var week time.Duration
 
 func main() {
-	aki := "where"
-	fmt.Println(aki)
-	fmt.Println(&aki)
-	var akiPtr *string
-	akiPtr = &aki
-	fmt.Println(akiPtr)
+	for i, j, s := 0, 5, "a"; i < 3 && j < 100 && s != "aaaaa"; i, j,
+		s = i+1, j+1, s+"a" {
+		fmt.Println("Value of i, j, s:", i, j, s)
+	}
 }
