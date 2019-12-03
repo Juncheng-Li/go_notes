@@ -244,7 +244,7 @@ if value, ok := readData(); ok {
 ```
 
 **switch**
-不需要break语句，自带隐藏break
+* 不需要break语句，自带隐藏break
 ```go
 switch num1 {
 	case 98, 99:
@@ -327,11 +327,11 @@ if err != nil {}
 ```
 
 **array**
-*slice 的cap是slice的开始到母arr的结尾的长度
-*slice 的len就是slice本身的长度
+* slice 的cap是slice的开始到母arr的结尾的长度
+* slice 的len就是slice本身的长度
 
 **defer**
-*defer的东西会在函数推出前执行，相当于finally
+* defer的东西会在函数推出前执行，相当于finally
 ```go
 func ReadWrite() bool {
 	file.Open("file")
@@ -370,8 +370,8 @@ bob := person{age:25, name:"Bob"}
 // 按照struct定义顺序初始化值
 paul := person{"Paul", 43}
 ```
-*匿名字段 字段继承
-*字段继承如果有相同名字的，优先访问外层的
+* 匿名字段 字段继承
+* 字段继承如果有相同名字的，优先访问外层的
 ```go
 package main
 
@@ -413,7 +413,7 @@ func main() {
 ```
 
 **面向对象**
-*有点像java的overloading (同一个函数名，不同的函数签名)
+* 有点像java的overloading (同一个函数名，不同的函数签名)
 ```go
 package main
 
