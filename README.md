@@ -66,6 +66,8 @@ count, err := fmt.Println(x) // number of bytes printed, nil or 0, error
 **init function**
 ```go
 //会在main之前运行
+//不能有任何的参数和返回值
+//强烈建议一个package里面只有一个init
 package trans
 
 import "math"
@@ -321,7 +323,131 @@ for-range
 **错误**
 判断有没有错误
 ```go
-if err != nil {} 
+if err != nil {}
 ```
 
+**array**
+*slice 的cap是slice的开始到母arr的结尾的长度
+*slice 的len就是slice本身的长度
 
+**defer**
+*defer的东西会在函数推出前执行，相当于finally
+```go
+func ReadWrite() bool {
+	file.Open("file")
+	defer file.Close()
+	if failureX {
+		return false
+	}
+	if failureY {
+		return false
+	}
+	return true
+}
+```
+
+**struct**
+```go
+type person struct {
+	name string
+	age int
+}
+
+//声明
+var P person
+
+//使用
+P.name = "Astaxie"  // 赋值"Astaxie"给P的name属性.
+P.age = 25  // 赋值"25"给变量P的age属性
+fmt.Printf("The person's name is %s", P.name)  // 访问P的name属性.
+
+// 赋值初始化
+tom.name, tom.age = "Tom", 18
+
+// 两个字段都写清楚的初始化
+bob := person{age:25, name:"Bob"}
+
+// 按照struct定义顺序初始化值
+paul := person{"Paul", 43}
+```
+*匿名字段 字段继承
+*字段继承如果有相同名字的，优先访问外层的
+```go
+package main
+
+import "fmt"
+
+type Human struct {
+	name string
+	age int
+	weight int
+}
+
+type Student struct {
+	Human  // 匿名字段，那么默认Student就包含了Human的所有字段
+	speciality string
+}
+
+func main() {
+	// 我们初始化一个学生
+	mark := Student{Human{"Mark", 25, 120}, "Computer Science"}
+
+	// 我们访问相应的字段
+	fmt.Println("His name is ", mark.name)
+	fmt.Println("His age is ", mark.age)
+	fmt.Println("His weight is ", mark.weight)
+	fmt.Println("His speciality is ", mark.speciality)
+	// 修改对应的备注信息
+	mark.speciality = "AI"
+	fmt.Println("Mark changed his speciality")
+	fmt.Println("His speciality is ", mark.speciality)
+	// 修改他的年龄信息
+	fmt.Println("Mark become old")
+	mark.age = 46
+	fmt.Println("His age is", mark.age)
+	// 修改他的体重信息
+	fmt.Println("Mark is not an athlet anymore")
+	mark.weight += 60
+	fmt.Println("His weight is", mark.weight)
+}
+```
+
+**面向对象**
+*有点像java的overloading (同一个函数名，不同的函数签名)
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type Rectangle struct {
+	width, height float64
+}
+
+type Circle struct {
+	radius float64
+}
+
+func (r Rectangle) area() float64 {
+	return r.width*r.height
+}
+
+func (c Circle) area() float64 {
+	return c.radius * c.radius * math.Pi
+}
+
+
+func main() {
+	r1 := Rectangle{12, 2}
+	r2 := Rectangle{9, 4}
+	c1 := Circle{10}
+	c2 := Circle{25}
+
+	fmt.Println("Area of r1 is: ", r1.area())
+	fmt.Println("Area of r2 is: ", r2.area())
+	fmt.Println("Area of c1 is: ", c1.area())
+	fmt.Println("Area of c2 is: ", c2.area())
+}
+```
