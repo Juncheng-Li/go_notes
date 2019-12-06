@@ -412,7 +412,7 @@ func main() {
 }
 ```
 
-**面向对象**
+**method**
 * 有点像java的overloading (同一个函数名，不同的函数签名)
 ```go
 package main
@@ -451,3 +451,35 @@ func main() {
 	fmt.Println("Area of c2 is: ", c2.area())
 }
 ```
+
+**自定义类型**
+* 也可以理解为对类型的重命名
+```go
+//这里int就变成了age
+type ages int
+
+type money float32
+
+type months map[string]int
+
+m := months {
+	"January":31,
+	"February":28,
+	...
+	"December":31,
+}
+```
+
+**channels**
+```go
+ci := make(chan int)
+cs := make(chan string)
+cf := make(chan interface{})
+
+ch <- v    // 发送v到channel ch.
+v := <-ch  // 从ch中接收数据，并赋值给v
+```
+
+**多协程**
+* 必须设置GOMAXPROCS大于1来激活多个线程
+* 经验指示协程的数量 n - 1 能获得最佳性能（n为cpu核心的数量）
