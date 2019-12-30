@@ -29,6 +29,12 @@
         2. 调用 handleDiskFlush进行同步/异步刷盘
         3. handleHA不会进行任何操作，也不管slave broker的复制进度，复制完全是由后台HAConnection.WriteSocketService服务在监听到有从Broker的链接可写时，向其写等待复制的数据。每个从broker发送进度则是由从broker定时汇报的自身当前已复制进度控制。该汇报由HAConnection.ReadSocketService负责处理
 
+### 常见的集群方式
+* 单master：单点故障就瘫痪
+* 多master：无单点故障，线上生产常用模式
+* 单master多slave：slave瘫痪没事，master瘫痪后消费者还可以从slave获取消息但是生产者不能在发送消息
+* 多master多slave：无单点故障
+  
 ### RocketMQ中的一些消息概念
 #### 普通消息
 * Message（消息）: 一条消息包括Topic，Tag，消息内容等
@@ -154,11 +160,4 @@ nohup sh bin/mqbroker -c conf/2m-2s-async -n 10.128.0.3:9876
 
 
 
-### 常见的集群方式
-* 单master：单点故障就瘫痪
-* 多master：无单点故障，线上生产常用模式
-* 单master多slave：slave瘫痪没事，master瘫痪后消费者还可以从slave获取消息但是生产者不能在发送消息
-* 多master多slave：无单点故障
-
-
-同步复制 -> 同步双写
+注：同步复制 -> 同步双写
